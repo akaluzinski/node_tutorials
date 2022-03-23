@@ -1,0 +1,22 @@
+{
+  "name": "notez",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akaluzinski/node_tutorials.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/akaluzinski/node_tutorials/issues"
+  },
+  "homepage": "https://github.com/akaluzinski/node_tutorials#readme",
+  "dependencies": {
+    "validator": "^13.7.0"
+  }
+}
