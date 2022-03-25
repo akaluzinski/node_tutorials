@@ -6,8 +6,20 @@ console.log(validator.isEmail('goog@le.com'));
 yargs.command({
     command: 'add',
     describe: 'Add a note',
-    handler: function() {
-        console.log('Adding some note')
+    builder: {
+      title: {
+          describe: 'Note title',
+          demandOption: true,
+          type: 'string'
+      },
+     body: {
+            describe: 'Note body',
+            demandOption: true,
+            type: 'string'
+        }
+    },
+    handler: function({ title, body }) {
+        console.log('Adding some note', title, body);
     }
 });
 
@@ -44,4 +56,4 @@ yargs.command({
 });
 
 
-console.log(yargs.argv);
+yargs.parse();
