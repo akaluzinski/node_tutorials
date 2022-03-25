@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/akaluzinski/node_tutorials#readme",
   "dependencies": {
-    "validator": "^13.7.0"
+    "validator": "^13.7.0",
+    "yargs": "^17.4.0"
   }
 }
