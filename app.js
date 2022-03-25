@@ -1,5 +1,7 @@
 const validator = require('validator');
 const yargs = require('yargs');
+const notes = require('./notes.js');
+
 
 console.log(validator.isEmail('goog@le.com'));
 
@@ -19,7 +21,7 @@ yargs.command({
         }
     },
     handler: function({ title, body }) {
-        console.log('Adding some note', title, body);
+        notes.addNote(title, body);
     }
 });
 
