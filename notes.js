@@ -1,7 +1,11 @@
 const fs = require('fs');
 const NOTES_FILE_NAME = 'notes.json';
 
-const getNotes = () => "notes here"
+const printNotes = () => {
+    loadNotes().forEach(({body, title}, index) => {
+       console.log((index+1) + '\n' + title + '\n' + body + '\n');
+    });
+}
 
 const addNote = (title, body) => {
     const notes = loadNotes();
@@ -23,7 +27,6 @@ const saveNotes = (notes) => {
 }
 
 const loadNotes = () => {
-
     try {
         const dataBuffer = fs.readFileSync(NOTES_FILE_NAME);
         const dataJson = dataBuffer.toString();
@@ -34,7 +37,7 @@ const loadNotes = () => {
 }
 
 module.exports = {
-    getNotes,
+    printNotes,
     addNote,
     loadNotes,
     removeNote
