@@ -28,31 +28,31 @@ yargs.command({
 yargs.command({
     command: 'remove',
     describe: 'Remove a note',
-    handler: function() {
-        console.log('Removing some note')
+    builder: {
+        title: {
+            describe: 'Note title',
+            demandOption: true,
+            type: 'string'
+        }
+    },
+    handler: ({ title }) => {
+        console.log(`Remove '${title}'`);
+        notes.removeNote(title);
     }
 });
 
 yargs.command({
     command: 'list',
     describe: 'List of notes',
-    handler: function() {
+    handler: () => {
         console.log('List notes')
-    }
-});
-
-yargs.command({
-    command: 'remove',
-    describe: 'Remove a note',
-    handler: function() {
-        console.log('Removing some note')
     }
 });
 
 yargs.command({
     command: 'read',
     describe: 'Read a note',
-    handler: function() {
+    handler: () => {
         console.log('Reading notes')
     }
 });

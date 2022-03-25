@@ -5,11 +5,16 @@ const getNotes = () => "notes here"
 
 const addNote = (title, body) => {
     const notes = loadNotes();
+
     notes.push({
         title,
         body
     })
     saveNotes(notes);
+}
+
+const removeNote = (title) => {
+    saveNotes(loadNotes().filter(note => note.title !== title));
 }
 
 const saveNotes = (notes) => {
@@ -31,5 +36,6 @@ const loadNotes = () => {
 module.exports = {
     getNotes,
     addNote,
-    loadNotes
+    loadNotes,
+    removeNote
 }
