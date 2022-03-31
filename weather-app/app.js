@@ -11,11 +11,20 @@ const options = {
     json: true
 }
 
-request(options, (error, { body }) => {
-    if (error != null){
-        throw Error('Sorry', error);
+request(options, (connectionError, {
+    body: {
+        current: {feelslike, temperature, weather_descriptions},
+        error,
+        location: {name}
     }
-    const { current: { feelslike, temperature }} = body;
-    const message = `Current temperature in ${query} is ${temperature} but feels like ${feelslike}`;
-    console.log(message);
+}) => {
+    if (connectionError != null) {
+        console.error('Unable to query weather API server', error);
+    } else if (error) {
+        console.error(error.info)
+    } else {
+        const message = `${weather_descriptions[0]}. Current temperature in ${name} is ${temperature} but feels like ${feelslike}`;
+        console.log(message);
+    }
+
 })
