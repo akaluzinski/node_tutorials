@@ -15,6 +15,10 @@ app.get('/weather', (req, res) => {
    });
 });
 
+app.get('*', (req, res) => {
+   res.status(404).json({ error: '404'})
+});
+
 app.listen(PORT, () => {
     console.log(`Server up on port ${PORT}`);
 });
