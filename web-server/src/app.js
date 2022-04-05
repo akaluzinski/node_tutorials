@@ -1,15 +1,7 @@
-const path = require('path');
-const express = require('express');
+const initServer = require('./config');
 
 const PORT = 3000;
-const publicResourceDir = path.join(__dirname, '../public');
-const viewPath = path.join(__dirname, '../src/templates');
-
-const app = express()
-
-app.set('view engine', 'hbs');
-app.set('views', viewPath);
-app.use(express.static(publicResourceDir));
+const app = initServer();
 
 app.get('/', (req, res) => {
     res.render('index', {
@@ -24,5 +16,5 @@ app.get('/weather', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server up on port ${PORT}`)
+    console.log(`Server up on port ${PORT}`);
 });
