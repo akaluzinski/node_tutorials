@@ -6,7 +6,14 @@ const publicResourceDir = path.join(__dirname, '../public');
 
 const app = express()
 
+app.set('view engine', 'hbs');
 app.use(express.static(publicResourceDir));
+
+app.get('/', (req, res) => {
+    res.render('index', {
+        title: 'Weather app'
+    });
+});
 
 app.get('/weather', (req, res) => {
    res.send({
