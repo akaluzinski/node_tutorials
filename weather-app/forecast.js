@@ -8,17 +8,13 @@ const forecast = (city, callback) => {
         json: true
     }
 
-    request(options, (connectionError, { body: {
-        current: {feelslike, temperature, weather_descriptions},
-        error,
-        location: {name}
-    } }) => {
+    request(options, (connectionError, response) => {
         if (connectionError != null) {
             callback(undefined, 'Unable to query weather API server');
-        } else if (error) {
-            callback(undefined, error.info);
+        } else if (response.body.error) {
+            callback(undefined, response.body.error.info);
         } else {
-            const message = `${weather_descriptions[0]}. Current temperature in ${name} is ${temperature} but feels like ${feelslike}`;
+            const message = `${(response.body.current.weather_descriptions)[0]}. Current temperature in ${(response.body.location.name)} is ${(response.body?.current.temperature)} but feels like ${(response.body.current.feelslike)}`;
             callback(message, undefined);
         }
     });
