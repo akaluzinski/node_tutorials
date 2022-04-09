@@ -1,18 +1,23 @@
 const weatherForm = document.querySelector('.weather-form');
 const locationInput = document.querySelector('#location-input');
+const weatherMessage = document.querySelector('.weather-message');
+
 weatherForm.addEventListener('submit', (event) => {
     event.preventDefault();
+    weatherMessage.innerText = 'Loading...';
+
     if (locationInput.value.length > 0) {
         fetch(`/weather?location=${locationInput.value}`).then(response => {
             response.json().then((data, error) => {
+                let message;
                 if (error) {
-                    console.error(error);
+                    message = error;
                 } else if (data.error) {
-                    console.error(data.error);
+                    message = data.error;
                 } else {
-                    document.getElementById('weather-message').innerText = data.message;
-                    console.log(data.message);
+                    message = data.message;
                 }
+                weatherMessage.innerText = message;
             });
         });
     }

@@ -1,5 +1,5 @@
 const initServer = require('./config');
-const forecast = require('../../weather-app/forecast');
+const forecast = require('./weather/forecast');
 
 const PORT = 3000;
 const app = initServer();
@@ -24,12 +24,6 @@ app.get('/weather', (req, res) => {
             return res.status(500).send({ error });
         }
         return res.send({ message });
-
-        // if (success) {
-        //     res.status(200).body({xd:'xd'})
-        // } else {
-        //     res.status(500).send({ error })
-        // }
     });
 });
 
