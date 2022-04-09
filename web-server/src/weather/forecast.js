@@ -1,6 +1,6 @@
 const request = require('request');
 
-const ApiKey = ''
+const ApiKey = 'token';
 const forecast = (city, callback) => {
     const url = `http://api.weatherstack.com/current?access_key=${ApiKey}&query=${encodeURIComponent(city)}`;
     const options = {
