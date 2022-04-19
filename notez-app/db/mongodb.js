@@ -13,14 +13,15 @@ const connectionCallback = (error, client) => {
 
     console.log("Connected to database");
     const db = client.db(databaseName);
-    db.collection('users').insertOne({
-        name: 'Adrian',
-        number: 27
-    })
-    console.log('Object inserted');
+    db.collection('tasks').insertOne({
+        description: 'Finish Notez app',
+        completed: false
+    }, (error, { insertedId }) => {
+        if (error) {
+            return console.error('Unable to insert task', error);
+        }
+        console.log('Task inserted', insertedId);
+    });
 };
 
 mongodb.MongoClient.connect(connectionURL, mongoOptions, connectionCallback);
-
-
-//TODO add eslintx
