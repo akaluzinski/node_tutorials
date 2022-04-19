@@ -8,25 +8,28 @@ mongoose.connect(connectionURL, {});
 
 const User = mongoose.model('User', {
     name: {
-        type: String
-    },
-    age: {
-        type: Number
+        type: String,
+        minLength: 3,
+        maxLength: 200,
+        required: true
     }
 })
 
 const Task = mongoose.model('Task', {
     description: {
-        type: String
+        type: String,
+        minLength: 1,
+        maxLength: 2000
     },
     completed: {
+        required: true,
         type: Boolean
     }
 })
 
 
 
-const user = new User({ name: 'Moongose', age: 31 });
+const user = new User({ name: 'Adrian' });
 user.save().then((user) => {
     console.log(user);
 }).catch((error) => {
