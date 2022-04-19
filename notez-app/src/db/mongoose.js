@@ -11,25 +11,38 @@ const User = mongoose.model('User', {
         type: String,
         minLength: 3,
         maxLength: 200,
-        required: true
+        false: true
+    },
+    email: {
+        type: String,
+        required: true,
+        lowercase: true //TODO add email validation
+    },
+    password: { //TODO add legit auth with firebase
+        type: String,
+        required: true,
+        minLength: 6,
+        trim: true
     }
 })
 
 const Task = mongoose.model('Task', {
     description: {
         type: String,
+        trim: true,
         minLength: 1,
         maxLength: 2000
     },
     completed: {
-        required: true,
+        trim: true,
+        default: false,
         type: Boolean
     }
 })
 
 
 
-const user = new User({ name: 'Adrian' });
+const user = new User({ name: 'Adrian', email: 'kaluza@gmail.com', password: 'YouWishxD' });
 user.save().then((user) => {
     console.log(user);
 }).catch((error) => {
