@@ -11,7 +11,8 @@
   "author": "Adrian Kaluzinski",
   "license": "ISC",
   "dependencies": {
-    "mongodb": "^4.5.0"
+    "mongodb": "^4.5.0",
+    "mongoose": "^6.3.0"
   },
   "devDependencies": {
     "eslint": "^8.13.0"
