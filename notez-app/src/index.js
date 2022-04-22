@@ -20,6 +20,26 @@ app.post('/users', ({body}, res) => {
     });
 });
 
+app.get('/users', (req, res) => {
+    User.find({}).then((users) => {
+        res.send(users);
+    }).catch((error) => {
+       res.status(500).send(error);
+    });
+});
+
+app.get('/users/:id', (req, res) => {
+    User.findById(req.params.id).then((user) => {
+        if(!user) {
+            return res.status(404).send();
+        }
+
+        res.send(user);
+    }).catch(() => {
+        res.status(403).send({ error: 'User not accessible.'});
+    });
+});
+
 /*-------TASKS-----------*/
 
 app.post('/tasks', ({body}, res) => {
@@ -31,6 +51,17 @@ app.post('/tasks', ({body}, res) => {
     });
 });
 
+app.get('/tasks/:id', (req, res) => {
+    Task.findById(req.params.id).then((task) => {
+        if(!task) {
+            return res.status(404).send();
+        }
+
+        res.send(task);
+    }).catch(() => {
+        res.status(403).send({ error: 'Task not accessible.'});
+    });
+});
 
 app.listen(port, () => {
     console.log(`Server is on port ${port}`);
