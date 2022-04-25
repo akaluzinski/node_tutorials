@@ -24,19 +24,19 @@ app.get('/users', (req, res) => {
     User.find({}).then((users) => {
         res.send(users);
     }).catch((error) => {
-       res.status(500).send(error);
+        res.status(500).send(error);
     });
 });
 
 app.get('/users/:id', (req, res) => {
     User.findById(req.params.id).then((user) => {
-        if(!user) {
+        if (!user) {
             return res.status(404).send();
         }
 
         res.send(user);
     }).catch(() => {
-        res.status(403).send({ error: 'User not accessible.'});
+        res.status(403).send({error: 'User not accessible.'});
     });
 });
 
@@ -44,18 +44,25 @@ app.patch('/users/:id', async (req, res) => {
     const id = req.params.id;
     const body = req.body;
 
+    const allowedFields = ['name', 'email', 'password'];
+    const isValid = Object.keys(body).every((update) => allowedFields.includes(update));
+
+    if (!isValid) {
+        return res.status(400).send({error: 'Invalid update operation.'});
+    }
+
     try {
         const user = await User.findByIdAndUpdate(id, body, {
             new: true,
             runValidators: true
         });
         if (!user) {
-           return res.status(404).send();
+            return res.status(404).send();
         }
         res.send(user)
     } catch (error) {
         console.error(error);
-        return res.status(404).send( { error });
+        return res.status(404).send({error});
     }
 });
 
@@ -72,13 +79,13 @@ app.post('/tasks', ({body}, res) => {
 
 app.get('/tasks/:id', (req, res) => {
     Task.findById(req.params.id).then((task) => {
-        if(!task) {
+        if (!task) {
             return res.status(404).send();
         }
 
         res.send(task);
     }).catch(() => {
-        res.status(403).send({ error: 'Task not accessible.'});
+        res.status(403).send({error: 'Task not accessible.'});
     });
 });
 
