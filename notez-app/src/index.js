@@ -59,12 +59,24 @@ app.patch('/users/:id', async (req, res) => {
             runValidators: true
         });
         if (!user) {
-            return res.status(404).send();
+            return res.status(404).send({ error: 'User not found' });
         }
         res.send(user)
     } catch (error) {
         console.error(error);
         return res.status(404).send({error: 'Unable to update user'});
+    }
+});
+
+app.delete('/users/:id', async(req, res) => {
+    try {
+        const user = await User.findByIdAndDelete(req.params.id);
+        if (!user) {
+            return res.status(404).send({ error: 'User not found' });
+        }
+        return res.send(user);
+    } catch (error) {
+        return res.status(500).send( { error: 'Unable to remove user.' });
     }
 });
 
@@ -120,6 +132,18 @@ app.patch('/tasks/:id', async (req, res) => {
         res.send(task)
     } catch (error) {
         return res.status(404).send({error: 'Unable to update task.'});
+    }
+});
+
+app.delete('/tasks/:id', async(req, res) => {
+    try {
+        const task = await Task.findByIdAndDelete(req.params.id);
+        if (!task) {
+            return res.status(404).send({ error: 'Task not found' });
+        }
+        return res.send(task);
+    } catch (error) {
+        return res.status(500).send( { error: 'Unable to remove task.' });
     }
 });
 
