@@ -40,6 +40,25 @@ app.get('/users/:id', (req, res) => {
     });
 });
 
+app.patch('/users/:id', async (req, res) => {
+    const id = req.params.id;
+    const body = req.body;
+
+    try {
+        const user = await User.findByIdAndUpdate(id, body, {
+            new: true,
+            runValidators: true
+        });
+        if (!user) {
+           return res.status(404).send();
+        }
+        res.send(user)
+    } catch (error) {
+        console.error(error);
+        return res.status(404).send( { error });
+    }
+});
+
 /*-------TASKS-----------*/
 
 app.post('/tasks', ({body}, res) => {
