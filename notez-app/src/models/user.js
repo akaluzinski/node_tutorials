@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
         minLength: 6,
         trim: true
     }
-})
+});
 
 userSchema.pre('save', async function (next) {
     const user = this;

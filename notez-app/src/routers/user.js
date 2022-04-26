@@ -55,7 +55,6 @@ userRouter.patch('/users/:id', async (req, res) => {
 
         res.send(user)
     } catch (error) {
-        console.error(error);
         return res.status(404).send({error: 'Unable to update user'});
     }
 });
