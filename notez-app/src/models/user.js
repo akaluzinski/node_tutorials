@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const hash = require('../security/hashing');
 
-const User = mongoose.model('User', {
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         minLength: 3,
@@ -20,5 +21,16 @@ const User = mongoose.model('User', {
     }
 });
 
+userSchema.pre('save', async function (next) {
+    const user = this;
+
+    if (user.isModified('password')) {
+        user.password = await hash(user.password);
+    }
+
+    next();
+});
+
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;

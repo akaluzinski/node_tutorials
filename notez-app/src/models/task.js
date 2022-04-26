@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Task = mongoose.model('Task', {
+const taskSchema = mongoose.Schema({
     description: {
         type: String,
         trim: true,
@@ -14,5 +14,12 @@ const Task = mongoose.model('Task', {
         type: Boolean
     }
 });
+
+taskSchema.pre('save', async function (next) {
+    console.log('task middleware');
+    next();
+});
+
+const Task = mongoose.model('Task', taskSchema);
 
 module.exports = Task;

@@ -1,5 +1,6 @@
 const express = require('express');
 const Task = require("../models/task");
+const User = require("../models/user");
 
 const taskRouter = new express.Router();
 
@@ -37,21 +38,24 @@ taskRouter.patch('/tasks/:id', async (req, res) => {
         const id = req.params.id;
         const body = req.body;
         const allowedFields = ['description', 'completed'];
-        const isValid = Object.keys(body).every((update) => allowedFields.includes(update));
+        const updates = Object.keys(body);
+        const isValid = updates.every((update) => allowedFields.includes(update));
 
         if (!isValid) {
             return res.status(400).send({ error: 'Invalid update operation.'});
         }
 
-        const task = await Task.findByIdAndUpdate(id, body, {
-            new: true,
-            runValidators: true
-        });
+        const task = await Task.findById(id);
         if (!task) {
             return res.status(404).send();
         }
+
+        updates.forEach((update) => task[update] = body[update]);
+        await task.save();
+
         res.send(task)
     } catch (error) {
+        console.log('error');
         return res.status(404).send({error: 'Unable to update task.'});
     }
 });
