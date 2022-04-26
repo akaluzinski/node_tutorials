@@ -44,6 +44,7 @@ userRouter.patch('/users/:id', async (req, res) => {
             return res.status(400).send({error: 'Invalid update operation.'});
         }
 
+        //TODO require a password to change password
         const user = await User.findById(id);
         updates.forEach((update) => user[update] = body[update]);
 
