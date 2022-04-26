@@ -36,21 +36,23 @@ userRouter.patch('/users/:id', async (req, res) => {
 
         const id = req.params.id;
         const body = req.body;
-
+        const updates = Object.keys(body);
         const allowedFields = ['name', 'email', 'password'];
-        const isValid = Object.keys(body).every((update) => allowedFields.includes(update));
+        const isValid = updates.every((update) => allowedFields.includes(update));
 
         if (!isValid) {
             return res.status(400).send({error: 'Invalid update operation.'});
         }
 
-        const user = await User.findByIdAndUpdate(id, body, {
-            new: true,
-            runValidators: true
-        });
+        const user = await User.findById(id);
+        updates.forEach((update) => user[update] = body[update]);
+
         if (!user) {
             return res.status(404).send({ error: 'User not found' });
         }
+
+        await user.save();
+
         res.send(user)
     } catch (error) {
         console.error(error);
