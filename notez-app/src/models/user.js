@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
+        unique: true,
         lowercase: true //TODO add email validation
     },
     password: { //TODO add legit auth with firebase
