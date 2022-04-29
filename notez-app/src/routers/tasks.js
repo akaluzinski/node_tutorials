@@ -1,6 +1,5 @@
 const express = require('express');
 const Task = require("../models/task");
-const User = require("../models/user");
 
 const taskRouter = new express.Router();
 
