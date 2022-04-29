@@ -20,12 +20,21 @@ const userSchema = new mongoose.Schema({
         required: true,
         minLength: 6,
         trim: true
-    }
+    },
+    tokens: [{
+        token: {
+            type: String,
+            requred: true
+        }
+    }]
 });
 
 userSchema.methods.generateToken = async function () {
     const user = this;
-    return generateToken({ _id: user._id },  '7 days');
+    const token = await generateToken({ _id: user._id },  '7 days');
+    user.tokens = [...user.tokens, { token } ];
+    await user.save();
+    return token;
 }
 
 userSchema.statics.findByCredentials = async (email, password) => {
