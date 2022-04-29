@@ -3,8 +3,6 @@ const User = require("../models/user");
 const {auth} = require("../middleware/auth");
 const userRouter = new express.Router();
 
-
-
 userRouter.post('/users', async ({body}, res) => {
     try {
         const user = new User(body);
@@ -16,12 +14,8 @@ userRouter.post('/users', async ({body}, res) => {
     }
 });
 
-userRouter.get('/users', auth, (req, res) => {
-    User.find({}).then((users) => {
-        res.send(users);
-    }).catch(() => {
-        res.status(500).send({error: 'Unable to find users.'});
-    });
+userRouter.get('/users/me', auth, ({ user }, res) => {
+    res.send(user);
 });
 
 userRouter.get('/users/:id', (req, res) => {
