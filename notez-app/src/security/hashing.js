@@ -6,4 +6,11 @@ async function hash(text) {
     return await bcrypt.hash(text, rounds);
 }
 
-module.exports = hash;
+async function isValid(text, hash) {
+    return await bcrypt.compare(text, hash);
+}
+
+module.exports = {
+    hash,
+    isValid
+};

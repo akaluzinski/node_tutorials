@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Adrian\",\n    \"email\": \"kaluza@gmail.com\",\n    \"password\": \"YouWish&&&\"\n}",
+					"raw": "{\n    \"name\": \"Test\",\n    \"email\": \"kaluza@gmail.com\",\n    \"password\": \"hehehe1\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -27,6 +27,34 @@
 					"port": "3000",
 					"path": [
 						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign in",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"kaluza@gmail.com\",\n    \"password\": \"hehehe1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/auth/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"login"
 					]
 				}
 			},
@@ -207,13 +235,13 @@
 			"response": []
 		},
 		{
-			"name": "Tasks Copy",
+			"name": "Edit task",
 			"request": {
 				"method": "PATCH",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"description\": \"First API task\"z\n    \n}",
+					"raw": "{\n    \"description\": \"First API task\"\n    \n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -221,14 +249,14 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/tasks/625ec9c0bf5b5b70dd805305",
+					"raw": "localhost:3000/tasks/625eca937b0d724d99564a01",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
 						"tasks",
-						"625ec9c0bf5b5b70dd805305"
+						"625eca937b0d724d99564a01"
 					]
 				}
 			},

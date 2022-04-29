@@ -2,13 +2,15 @@ const express = require('express');
 const User = require("../models/user");
 const userRouter = new express.Router();
 
-userRouter.post('/users', ({body}, res) => {
-    const user = new User(body);
-    user.save().then(() => {
-        res.send({message: `User ${user.email} created`});
-    }).catch(() => {
+userRouter.post('/users', async ({body}, res) => {
+    try {
+        const user = new User(body);
+        await user.save();
+        const token = await user.generateToken();
+        res.status(201).send({ user, token });
+    } catch (error) {
         res.status(400).send({error: 'Unable to create user.'});
-    });
+    }
 });
 
 userRouter.get('/users', (req, res) => {
@@ -44,6 +46,7 @@ userRouter.patch('/users/:id', async (req, res) => {
             return res.status(400).send({error: 'Invalid update operation.'});
         }
 
+        //TODO require a password to change password
         const user = await User.findById(id);
         updates.forEach((update) => user[update] = body[update]);
 
