@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const {isValid, hash} = require("../security/hashing");
+const {isValid, hash} = require('../security/hashing');
+const {generateToken } = require('../security/tokens');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -21,6 +22,11 @@ const userSchema = new mongoose.Schema({
         trim: true
     }
 });
+
+userSchema.methods.generateToken = async function () {
+    const user = this;
+    return generateToken({ _id: user._id },  '7 days');
+}
 
 userSchema.statics.findByCredentials = async (email, password) => {
     const user = await User.findOne({email});

@@ -7,6 +7,7 @@ authRouter.post('/auth/login', async (req, res) => {
 
     try {
         const user = await User.findByCredentials(email, password);
+        const token = await user.generateToken();
         res.send(user);
     } catch (error) {
         res.status(403).send();
