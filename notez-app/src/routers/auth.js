@@ -17,18 +17,25 @@ authRouter.post('/auth/login', async (req, res) => {
 
 authRouter.post('/auth/logout', auth, async (req, res) => {
     try {
-        console.log('Logout ', req.token);
-        req.user.tokens = req.user.tokens.filter((token) => {
-            if(token.token === req.token) {
-                console.log('Match, logout', token.token);
-            }
-           return token.token !== req.token;
-        });
-        await req.user.save();
+        await setUserTokens(req, req.user.tokens.filter((token) => token.token !== req.token))
         res.send('OK');
     } catch (error) {
         res.status(500).send({ error: 'Unable to logout' });
     }
 });
+
+authRouter.post('/auth/logout-all-devices', auth, async (req, res) => {
+    try {
+        await setUserTokens(req)
+        res.send('OK');
+    } catch (error) {
+        res.status(500).send({ error: 'Unable to logout' });
+    }
+});
+
+async function setUserTokens(req, newTokens = []) {
+    req.user.tokens = newTokens;
+    await req.user.save();
+}
 
 module.exports = authRouter;
