@@ -24,6 +24,7 @@ authRouter.post('/auth/logout', auth, async (req, res) => {
             }
            return token.token !== req.token;
         });
+        await req.user.save();
         res.send('OK');
     } catch (error) {
         res.status(500).send({ error: 'Unable to logout' });
