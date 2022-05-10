@@ -18,22 +18,8 @@ userRouter.get('/users/me', auth, ({ user }, res) => {
     res.send(user);
 });
 
-userRouter.get('/users/:id', (req, res) => {
-    User.findById(req.params.id).then((user) => {
-        if (!user) {
-            return res.status(404).send();
-        }
-
-        res.send(user);
-    }).catch(() => {
-        res.status(403).send({error: 'User not accessible.'});
-    });
-});
-
-userRouter.patch('/users/:id', async (req, res) => {
+userRouter.patch('/users/me', auth, async (req, res) => {
     try {
-
-        const id = req.params.id;
         const body = req.body;
         const updates = Object.keys(body);
         const allowedFields = ['name', 'email', 'password'];
@@ -43,29 +29,19 @@ userRouter.patch('/users/:id', async (req, res) => {
             return res.status(400).send({error: 'Invalid update operation.'});
         }
 
-        //TODO require a password to change password
-        const user = await User.findById(id);
-        updates.forEach((update) => user[update] = body[update]);
+        updates.forEach((update) => req.user[update] = body[update]);
+        await req.user.save();
 
-        if (!user) {
-            return res.status(404).send({ error: 'User not found' });
-        }
-
-        await user.save();
-
-        res.send(user)
+        res.send(req.user)
     } catch (error) {
         return res.status(404).send({error: 'Unable to update user'});
     }
 });
 
-userRouter.delete('/users/:id', async(req, res) => {
+userRouter.delete('/users/me', auth, async(req, res) => {
     try {
-        const user = await User.findByIdAndDelete(req.params.id);
-        if (!user) {
-            return res.status(404).send({ error: 'User not found' });
-        }
-        return res.send(user);
+        await req.user.remove();
+        return res.send('OK');
     } catch (error) {
         return res.status(500).send( { error: 'Unable to remove user.' });
     }

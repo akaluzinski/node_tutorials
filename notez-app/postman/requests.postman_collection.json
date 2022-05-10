@@ -34,6 +34,19 @@
 		},
 		{
 			"name": "Sign in",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if(pm.response.code === 200) {",
+							"    pm.environment.set('authToken', pm.response.json().token);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -47,11 +60,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/auth/login",
+					"raw": "{{url}}/auth/login",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "3000",
 					"path": [
 						"auth",
 						"login"
@@ -61,13 +73,30 @@
 			"response": []
 		},
 		{
-			"name": "Delete user",
+			"name": "Sign out",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
-				"method": "DELETE",
-				"header": [],
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Adrian\",\n    \"email\": \"kaluza@gmail.com\",\n    \"password\": \"YouWish&&&\"\n}",
+					"raw": "{\n    \"email\": \"kaluza@gmail.com\",\n    \"password\": \"hehehe1\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -75,14 +104,46 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/users/625ecac45bd000cccb344d59",
+					"raw": "{{url}}/auth/logout",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "3000",
+					"path": [
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/users/me",
+					"host": [
+						"{{url}}"
+					],
 					"path": [
 						"users",
-						"625ecac45bd000cccb344d59"
+						"me"
 					]
 				}
 			},
@@ -92,10 +153,16 @@
 			"name": "Update user",
 			"request": {
 				"method": "PATCH",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"xxxxxxxD\",\n    \"email\": \"kaluza@gmail.com\",\n    \"password\": \"YouWish&&&\",\n    \"toignore\": \"oop\"\n}",
+					"raw": "{\n    \"name\": \"xxxxxxxD\",\n    \"email\": \"kaluza@gmail.com\",\n    \"password\": \"YouWish&&&\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -103,27 +170,33 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/users/625ec8e88ba671c2cbe82a5c",
+					"raw": "localhost:3000/users/me",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
 						"users",
-						"625ec8e88ba671c2cbe82a5c"
+						"me"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Users",
+			"name": "My user",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"name\": \"Adrian\",\n    \"email\": \"kaluza@gmail.com\",\n    \"password\": \"YouWish&&&\"\n}",
@@ -134,13 +207,21 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/users",
+					"raw": "localhost:3000/users/me",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
-						"users"
+						"users",
+						"me"
+					],
+					"query": [
+						{
+							"key": "Authorization",
+							"value": "",
+							"disabled": true
+						}
 					]
 				}
 			},
