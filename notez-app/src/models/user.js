@@ -29,13 +29,22 @@ const userSchema = new mongoose.Schema({
     }]
 });
 
+userSchema.methods.toJSON = function() {
+    const user = this;
+    const userProfile = user.toObject();
+    delete userProfile.password;
+    delete userProfile.tokens;
+
+    return userProfile;
+};
+
 userSchema.methods.generateToken = async function () {
     const user = this;
     const token = await generateToken({ _id: user._id },  '7 days');
     user.tokens = [...user.tokens, { token } ];
     await user.save();
     return token;
-}
+};
 
 userSchema.statics.findByCredentials = async (email, password) => {
     const user = await User.findOne({email});
