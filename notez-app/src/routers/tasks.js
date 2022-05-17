@@ -17,12 +17,17 @@ taskRouter.post('/tasks', auth, (req, res) => {
     });
 });
 
-taskRouter.get('/tasks', auth, (req, res) => {
-    Task.find({}).then((tasks) => {
-        res.send(tasks);
-    }).catch(() => {
-        res.status(500).send({error: 'Unable to get tasks.' });
-    });
+taskRouter.get('/tasks', auth, async (req, res) => {
+    try {
+        const task = await Task.find({ owner: req.user._id });
+        if (!task) {
+            return res.status(404).send();
+        }
+
+        res.send(task);
+    } catch (error) {
+        res.status(403).send({error: 'Unable to get tasks.' });
+    }
 });
 
 taskRouter.get('/tasks/:id', auth, async (req, res) => {
