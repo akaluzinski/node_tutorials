@@ -17,7 +17,7 @@ taskRouter.post('/tasks', auth, (req, res) => {
     });
 });
 
-taskRouter.get('/tasks', (req, res) => {
+taskRouter.get('/tasks', auth, (req, res) => {
     Task.find({}).then((tasks) => {
         res.send(tasks);
     }).catch(() => {
@@ -25,16 +25,19 @@ taskRouter.get('/tasks', (req, res) => {
     });
 });
 
-taskRouter.get('/tasks/:id', (req, res) => {
-    Task.findById(req.params.id).then((task) => {
+taskRouter.get('/tasks/:id', auth, async (req, res) => {
+    const _id = req.params.id;
+
+    try {
+        const task = await Task.findOne({ _id, owner: req.user._id })
         if (!task) {
             return res.status(404).send();
         }
 
         res.send(task);
-    }).catch(() => {
+    } catch (error) {
         res.status(403).send({error: 'Task not accessible.'});
-    });
+    }
 });
 
 taskRouter.patch('/tasks/:id', async (req, res) => {
