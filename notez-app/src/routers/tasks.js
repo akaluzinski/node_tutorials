@@ -1,10 +1,15 @@
 const express = require('express');
 const Task = require("../models/task");
+const {auth} = require("../middleware/auth");
 
 const taskRouter = new express.Router();
 
-taskRouter.post('/tasks', ({body}, res) => {
-    const task = new Task(body);
+taskRouter.post('/tasks', auth, (req, res) => {
+    const task = new Task({
+        ...req.body,
+        owner: req.user._id
+    });
+
     task.save().then(() => {
         res.send({message: `Task ${task.description} created`});
     }).catch(() => {
