@@ -45,21 +45,23 @@ taskRouter.get('/tasks/:id', auth, async (req, res) => {
     }
 });
 
-taskRouter.patch('/tasks/:id', async (req, res) => {
+taskRouter.patch('/tasks/:id', auth, async (req, res) => {
     try {
-        const id = req.params.id;
+        const _id = req.params.id;
         const body = req.body;
+        const owner = req.user._id;
         const allowedFields = ['description', 'completed'];
         const updates = Object.keys(body);
+
+        const task = await Task.findOne({ _id, owner });
+        if (!task) {
+            return res.status(404).send();
+        }
+
         const isValid = updates.every((update) => allowedFields.includes(update));
 
         if (!isValid) {
             return res.status(400).send({ error: 'Invalid update operation.'});
-        }
-
-        const task = await Task.findById(id);
-        if (!task) {
-            return res.status(404).send();
         }
 
         updates.forEach((update) => task[update] = body[update]);
