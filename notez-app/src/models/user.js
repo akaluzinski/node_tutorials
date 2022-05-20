@@ -27,7 +27,9 @@ const userSchema = new mongoose.Schema({
             type: String,
             requred: true
         }
-    }]
+    }],
+},{
+    timestamps: true
 });
 
 userSchema.virtual('tasks', {
