@@ -329,7 +329,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/tasks?completed=true",
+					"raw": "localhost:3000/tasks?sortBy=description:desc",
 					"host": [
 						"localhost"
 					],
@@ -339,8 +339,8 @@
 					],
 					"query": [
 						{
-							"key": "completed",
-							"value": "true"
+							"key": "sortBy",
+							"value": "description:desc"
 						}
 					]
 				}
