@@ -1,8 +1,11 @@
 const express = require('express');
-const Task = require("../models/task");
-const {auth} = require("../middleware/auth");
+const Task = require('../models/task');
+const {auth} = require('../middleware/auth');
+const {isEmpty} = require('lodash');
 
 const taskRouter = new express.Router();
+const DEFAULT_LIMIT = 10;
+const SORT_SEPARATOR = ':';
 
 taskRouter.post('/tasks', auth, (req, res) => {
     const task = new Task({
@@ -19,6 +22,10 @@ taskRouter.post('/tasks', auth, (req, res) => {
 
 taskRouter.get('/tasks', auth, async (req, res) => {
     try {
+        const limit = parseInt(req.query.limit) || DEFAULT_LIMIT;
+        const skip = parseInt(req.query.skip) || 0;
+        const sort = {}
+
         const filter = {
             owner: req.user._id
         };
@@ -27,7 +34,17 @@ taskRouter.get('/tasks', auth, async (req, res) => {
             filter.completed = req.query.completed === 'true'
         }
 
-        const task = await Task.find(filter);
+        const sortBy = req.query.sortBy;
+
+        if (!isEmpty(sortBy) && sortBy.length === 2 && sortBy.includes(SORT_SEPARATOR)) {
+            const [property, order] = sortBy.split(SORT_SEPARATOR)
+            sort[property] = order === 'desc' ? -1 : 1;
+        }
+
+        const task = await Task.find(filter)
+            .limit(limit)
+            .skip(skip)
+            .sort(sort);
         if (!task) {
             return res.status(404).send();
         }
