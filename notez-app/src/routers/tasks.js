@@ -3,6 +3,7 @@ const Task = require("../models/task");
 const {auth} = require("../middleware/auth");
 
 const taskRouter = new express.Router();
+const DEFAULT_LIMIT = 10;
 
 taskRouter.post('/tasks', auth, (req, res) => {
     const task = new Task({
@@ -19,6 +20,9 @@ taskRouter.post('/tasks', auth, (req, res) => {
 
 taskRouter.get('/tasks', auth, async (req, res) => {
     try {
+        const limit = parseInt(req.query.limit) || DEFAULT_LIMIT;
+        const skip = parseInt(req.query.skip) || 0;
+
         const filter = {
             owner: req.user._id
         };
@@ -27,7 +31,9 @@ taskRouter.get('/tasks', auth, async (req, res) => {
             filter.completed = req.query.completed === 'true'
         }
 
-        const task = await Task.find(filter);
+        const task = await Task.find(filter)
+            .limit(limit)
+            .skip(skip);
         if (!task) {
             return res.status(404).send();
         }
