@@ -1,7 +1,7 @@
 const express = require('express');
-const Task = require("../models/task");
-const {auth} = require("../middleware/auth");
-const {isEmpty} = require("lodash");
+const Task = require('../models/task');
+const {auth} = require('../middleware/auth');
+const {isEmpty} = require('lodash');
 
 const taskRouter = new express.Router();
 const DEFAULT_LIMIT = 10;
