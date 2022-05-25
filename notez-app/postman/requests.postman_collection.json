@@ -2,11 +2,25 @@
 	"info": {
 		"_postman_id": "b5154190-5ed1-4a0a-ae42-fa53d9bf837e",
 		"name": "Tutorials",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3680520"
 	},
 	"item": [
 		{
 			"name": "Create user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if(pm.response.code === 201) {",
+							"    pm.environment.set('authToken', pm.response.json().token);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -262,7 +276,13 @@
 			"name": "Create task",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"description\": \"First API task\"\n}",
@@ -292,7 +312,13 @@
 			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"description\": \"First API task\"\n}",
@@ -303,13 +329,19 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/tasks",
+					"raw": "localhost:3000/tasks?completed=true",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
 						"tasks"
+					],
+					"query": [
+						{
+							"key": "completed",
+							"value": "true"
+						}
 					]
 				}
 			},
@@ -345,30 +377,24 @@
 		},
 		{
 			"name": "Task by id",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
 				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"description\": \"First API task\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
 					}
-				},
+				],
 				"url": {
-					"raw": "localhost:3000/tasks/626006d4d189589b43e7abaa",
+					"raw": "localhost:3000/tasks/6283dfeda057769fe3b2bc2f",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
 						"tasks",
-						"626006d4d189589b43e7abaa"
+						"6283dfeda057769fe3b2bc2f"
 					]
 				}
 			},
