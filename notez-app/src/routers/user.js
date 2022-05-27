@@ -1,7 +1,13 @@
 const express = require('express');
 const User = require("../models/user");
 const {auth} = require("../middleware/auth");
+const multer = require('multer');
 const userRouter = new express.Router();
+
+
+const upload = multer({
+    dest: 'avatars'
+});
 
 userRouter.post('/users', async ({body}, res) => {
     try {
@@ -36,6 +42,10 @@ userRouter.patch('/users/me', auth, async (req, res) => {
     } catch (error) {
         return res.status(404).send({error: 'Unable to update user'});
     }
+});
+
+userRouter.post('/users/me/avatar', upload.single('avatar'), (req, res) => {
+    res.send();
 });
 
 userRouter.delete('/users/me', auth, async(req, res) => {
