@@ -418,6 +418,36 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Upload avatar",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "avatar",
+							"type": "file",
+							"src": "/Users/akaluzin/Desktop/node-course-images/sample-pdf-file.pdf"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/users/me/avatar",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"me",
+						"avatar"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

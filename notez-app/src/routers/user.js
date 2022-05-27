@@ -4,9 +4,22 @@ const {auth} = require("../middleware/auth");
 const multer = require('multer');
 const userRouter = new express.Router();
 
+const maxAvatarSize = 2*1024*2024;
+
+const allowedImageMimeTypes = ['image/jpeg', 'image/png'];
 
 const upload = multer({
-    dest: 'avatars'
+    dest: 'avatars',
+    limits: {
+        fileSize: maxAvatarSize
+    },
+    fileFilter(req, file, callback) {
+        console.log(file)
+        if(!allowedImageMimeTypes.includes(file.mimetype)){
+            return callback(new Error('Invalid file type. Only JPG/PNG images are allowed.'))
+        }
+        return callback(undefined, true);
+    }
 });
 
 userRouter.post('/users', async ({body}, res) => {
