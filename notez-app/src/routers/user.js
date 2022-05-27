@@ -1,39 +1,21 @@
 const express = require('express');
 const User = require("../models/user");
 const {auth} = require("../middleware/auth");
-const multer = require('multer');
+const {avatarUpload} = require("../security/image-upload");
 const userRouter = new express.Router();
-
-const maxAvatarSize = 2*1024*2024;
-
-const allowedImageMimeTypes = ['image/jpeg', 'image/png'];
-
-const upload = multer({
-    dest: 'avatars',
-    limits: {
-        fileSize: maxAvatarSize
-    },
-    fileFilter(req, file, callback) {
-        console.log(file)
-        if(!allowedImageMimeTypes.includes(file.mimetype)){
-            return callback(new Error('Invalid file type. Only JPG/PNG images are allowed.'))
-        }
-        return callback(undefined, true);
-    }
-});
 
 userRouter.post('/users', async ({body}, res) => {
     try {
         const user = new User(body);
         await user.save();
         const token = await user.generateToken();
-        res.status(201).send({ user, token });
+        res.status(201).send({user, token});
     } catch (error) {
         res.status(400).send({error: 'Unable to create user.'});
     }
 });
 
-userRouter.get('/users/me', auth, ({ user }, res) => {
+userRouter.get('/users/me', auth, ({user}, res) => {
     res.send(user);
 });
 
@@ -57,16 +39,16 @@ userRouter.patch('/users/me', auth, async (req, res) => {
     }
 });
 
-userRouter.post('/users/me/avatar', upload.single('avatar'), (req, res) => {
+userRouter.post('/users/me/avatar', avatarUpload.single('avatar'), (req, res) => {
     res.send();
 });
 
-userRouter.delete('/users/me', auth, async(req, res) => {
+userRouter.delete('/users/me', auth, async (req, res) => {
     try {
         await req.user.remove();
         return res.send('OK');
     } catch (error) {
-        return res.status(500).send( { error: 'Unable to remove user.' });
+        return res.status(500).send({error: 'Unable to remove user.'});
     }
 });
 
