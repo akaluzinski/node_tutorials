@@ -4,7 +4,6 @@ const maxAvatarSizeBytes = 2 * 1024 * 2024;
 const allowedImageMimeTypes = ['image/jpeg', 'image/png'];
 
 const avatarUpload = multer({
-    dest: 'avatars',
     limits: {
         fileSize: maxAvatarSizeBytes
     },

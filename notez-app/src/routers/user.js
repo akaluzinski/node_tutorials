@@ -39,13 +39,16 @@ userRouter.patch('/users/me', auth, async (req, res) => {
     }
 });
 
+// eslint-disable-next-line no-unused-vars
 const onError = (error, req, res, _) => {
     res.status(400).send({
         error: error.message
     });
 };
 
-userRouter.post('/users/me/avatar', auth, avatarUpload.single('avatar'), (req, res) => {
+userRouter.post('/users/me/avatar', auth, avatarUpload.single('avatar'), async (req, res) => {
+    req.user.avatar = req.file.buffer;
+    await req.user.save();
     res.send();
 }, onError);
 
