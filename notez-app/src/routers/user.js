@@ -1,7 +1,9 @@
 const express = require('express');
 const User = require("../models/user");
+const sharp = require('sharp');
 const {auth} = require("../middleware/auth");
 const {avatarUpload} = require("../services/image-upload");
+const {cropImage} = require("../services/image-edit");
 const userRouter = new express.Router();
 
 userRouter.post('/users', async ({body}, res) => {
@@ -60,7 +62,7 @@ userRouter.get('/users/:id/avatar', async (req, res) => {
 }, onError);
 
 userRouter.post('/users/me/avatar', auth, avatarUpload.single('avatar'), async (req, res) => {
-    req.user.avatar = req.file.buffer;
+    req.user.avatar = await cropImage(req.file.buffer);
     await req.user.save();
     res.send();
 }, onError);
