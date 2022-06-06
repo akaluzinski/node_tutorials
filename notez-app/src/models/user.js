@@ -25,9 +25,12 @@ const userSchema = new mongoose.Schema({
     tokens: [{
         token: {
             type: String,
-            requred: true
+            required: true
         }
     }],
+    avatar: {
+        type: Buffer
+    }
 },{
     timestamps: true
 });
@@ -43,6 +46,7 @@ userSchema.methods.toJSON = function() {
     const userProfile = user.toObject();
     delete userProfile.password;
     delete userProfile.tokens;
+    delete userProfile.avatar;
 
     return userProfile;
 };

@@ -418,6 +418,73 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Upload avatar",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "avatar",
+							"type": "file",
+							"src": "/Users/akaluzin/Desktop/node-course-images/profile-pic.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/users/me/avatar",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"me",
+						"avatar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get avatar",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{url}}/users/:id/avatar",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						":id",
+						"avatar"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "628e3a24ca77a3c2c5dd4642"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
