@@ -42,9 +42,22 @@ userRouter.patch('/users/me', auth, async (req, res) => {
 // eslint-disable-next-line no-unused-vars
 const onError = (error, req, res, _) => {
     res.status(400).send({
-        error: error.message
+        error: error?.message || 'Unknown error. Sorry.'
     });
 };
+
+userRouter.get('/users/:id/avatar', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user || !user.avatar) {
+            throw new Error('This user does not have an avatar.');
+        }
+        res.set('Content-Type', 'image/jpg');
+        res.send(user.avatar);
+    } catch (e) {
+        res.send(404).send({ error: e.message} );
+    }
+}, onError);
 
 userRouter.post('/users/me/avatar', auth, avatarUpload.single('avatar'), async (req, res) => {
     req.user.avatar = req.file.buffer;

@@ -436,20 +436,51 @@
 						{
 							"key": "avatar",
 							"type": "file",
-							"src": "/Users/akaluzin/Desktop/node-course-images/sample-pdf-file.pdf"
+							"src": "/Users/akaluzin/Desktop/node-course-images/profile-pic.jpg"
 						}
 					]
 				},
 				"url": {
-					"raw": "localhost:3000/users/me/avatar",
+					"raw": "{{url}}/users/me/avatar",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "3000",
 					"path": [
 						"users",
 						"me",
 						"avatar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get avatar",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{url}}/users/:id/avatar",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						":id",
+						"avatar"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "628e3a24ca77a3c2c5dd4642"
+						}
 					]
 				}
 			},
