@@ -45,7 +45,7 @@ const onError = (error, req, res, _) => {
     });
 };
 
-userRouter.post('/users/me/avatar', avatarUpload.single('avatar'), (req, res) => {
+userRouter.post('/users/me/avatar', auth, avatarUpload.single('avatar'), (req, res) => {
     res.send();
 }, onError);
 
