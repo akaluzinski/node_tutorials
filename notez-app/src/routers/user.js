@@ -52,6 +52,12 @@ userRouter.post('/users/me/avatar', auth, avatarUpload.single('avatar'), async (
     res.send();
 }, onError);
 
+userRouter.delete('/users/me/avatar', auth, async (req, res) => {
+    req.user.avatar = undefined;
+    await req.user.save();
+    res.send();
+});
+
 userRouter.delete('/users/me', auth, async (req, res) => {
     try {
         await req.user.remove();
