@@ -1,7 +1,7 @@
 const express = require('express');
 const User = require("../models/user");
 const {auth} = require("../middleware/auth");
-const {avatarUpload} = require("../security/image-upload");
+const {avatarUpload} = require("../services/image-upload");
 const userRouter = new express.Router();
 
 userRouter.post('/users', async ({body}, res) => {
@@ -39,9 +39,15 @@ userRouter.patch('/users/me', auth, async (req, res) => {
     }
 });
 
+const onError = (error, req, res, _) => {
+    res.status(400).send({
+        error: error.message
+    });
+};
+
 userRouter.post('/users/me/avatar', avatarUpload.single('avatar'), (req, res) => {
     res.send();
-});
+}, onError);
 
 userRouter.delete('/users/me', auth, async (req, res) => {
     try {
