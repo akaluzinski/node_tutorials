@@ -3,7 +3,6 @@ const {sendGridApiKey} = require("../security/tokens");
 
 const mailingsEnabled = false;
 
-
 if (mailingsEnabled) {
     sgMail.setApiKey(sendGridApiKey);
     sgMail.send({

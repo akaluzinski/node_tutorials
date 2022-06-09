@@ -7,8 +7,7 @@ const userSchema = new mongoose.Schema({
     name: {
         type: String,
         minLength: 3,
-        maxLength: 200,
-        false: true
+        maxLength: 200
     },
     email: {
         type: String,
@@ -25,18 +24,24 @@ const userSchema = new mongoose.Schema({
     tokens: [{
         token: {
             type: String,
-            required: true
+            required: true,
         }
     }],
     avatar: {
         type: Buffer
+    },
+    settings: {
+        dailyNotificationsEnabled: {
+            type: Boolean,
+            default: true
+        }
     }
 },{
     timestamps: true
 });
 
 userSchema.virtual('tasks', {
-   ref: 'Task',
+    ref: 'Task',
     localField: '_id',
     foreignField: 'owner'
 });
@@ -58,6 +63,13 @@ userSchema.methods.generateToken = async function () {
     await user.save();
     return token;
 };
+
+userSchema.statics.findBySettings = async (settings) => {
+    const users = await User.find({
+        settings
+    });
+    return users;
+}
 
 userSchema.statics.findByCredentials = async (email, password) => {
     const user = await User.findOne({email});
