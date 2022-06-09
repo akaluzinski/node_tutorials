@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
+const process = require('process');
 
 const privateKey = 'secrettokentthatwillbeoverridensoon';
+const sendGridApiKey = process.env.SEND_GRID_KEY || '';
 
 async function generateToken(payload, expiresIn) {
     return jwt.sign(payload, privateKey, { expiresIn });
@@ -12,5 +14,6 @@ function verifyToken(token) {
 
 module.exports = {
     generateToken,
-    verifyToken
+    verifyToken,
+    sendGridApiKey
 };

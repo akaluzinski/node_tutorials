@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const {isValid} = require("../security/hashing");
 
 const taskSchema = mongoose.Schema({
     description: {
@@ -22,8 +23,9 @@ const taskSchema = mongoose.Schema({
     timestamps: true
 });
 
+taskSchema.statics.findWithOwner = async (owner) => Task.find({ owner });
+
 taskSchema.pre('save', async function (next) {
-    console.log('task middleware');
     next();
 });
 

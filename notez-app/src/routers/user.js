@@ -1,6 +1,5 @@
 const express = require('express');
 const User = require("../models/user");
-const sharp = require('sharp');
 const {auth} = require("../middleware/auth");
 const {avatarUpload} = require("../services/image-upload");
 const {cropImage} = require("../services/image-edit");
