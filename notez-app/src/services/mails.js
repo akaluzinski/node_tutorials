@@ -1,18 +1,16 @@
 const sgMail = require('@sendgrid/mail');
-const {sendGridApiKey} = require("../security/tokens");
+const {sendGridApiKey} = require('../security/tokens');
 
-const mailingsEnabled = false;
-
-if (mailingsEnabled) {
+function sendEmail(to, subject, text) {
     sgMail.setApiKey(sendGridApiKey);
-    sgMail.send({
-        to: 'kaluza@gmail.com',
+    return sgMail.send({
+        to,
         from: 'kaluza@gmail.com',
-        subject: 'API testing email',
-        text: 'Some body to be send to test SendGrid integration'
-    }).then(result => {
-        console.log('Email sent', result)
+        subject,
+        text
     });
-} else {
-    console.error('Enable mailings');
+}
+
+module.exports = {
+    sendEmail
 }

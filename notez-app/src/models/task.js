@@ -23,11 +23,7 @@ const taskSchema = mongoose.Schema({
     timestamps: true
 });
 
-taskSchema.statics.findWithOwner = async (owner) => {
-    return await Task.find({
-        owner
-    });
-};
+taskSchema.statics.findWithOwner = async (owner) => Task.find({ owner });
 
 taskSchema.pre('save', async function (next) {
     next();

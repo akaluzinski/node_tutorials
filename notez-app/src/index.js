@@ -6,7 +6,7 @@ const authRouter = require('./routers/auth');
 const {sendGridApiKey} = require("./security/tokens");
 
 require('./services/mails');
-require('./services/cron');
+require('./services/scheduler');
 
 const app = express();
 // eslint-disable-next-line no-undef
