@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
               return validator.isEmail(emailValue)
           }
         },
-        lowercase: true //TODO add email validation
+        lowercase: true
     },
     password: { //TODO add legit auth with firebase
         type: String,
