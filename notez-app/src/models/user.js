@@ -1,18 +1,25 @@
 const mongoose = require('mongoose');
 const {isValid, hash} = require('../security/hashing');
 const {generateToken } = require('../security/tokens');
+const validator = require('validator');
 const Task = require('./task');
 
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
         minLength: 3,
-        maxLength: 200
+        maxLength: 200,
+        required: true
     },
     email: {
         type: String,
         required: true,
         unique: true,
+        validate: {
+          validator: function(emailValue) {
+              return validator.isEmail(emailValue)
+          }
+        },
         lowercase: true //TODO add email validation
     },
     password: { //TODO add legit auth with firebase
