@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const process = require('process');
 
-const connectionPort = 27017;
-const apiName = 'notez-api';
+const connectionPort = process.env.MONGO_DB_PORT;
+const apiName = process.env.MONGO_DB_API_NAME;
 const mongoDatabaseUrl = process.env.MONGO_DB_URL;
 const connectionURL = `mongodb://${mongoDatabaseUrl}:${connectionPort}/${apiName}`;
 
-console.log('Connect to ', connectionURL);
+console.log('Connect to', connectionURL);
 mongoose.connect(connectionURL, {});
