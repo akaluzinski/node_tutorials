@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint .",
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js",
+    "dev": "env-cmd ./config/dev.env nodemon src/index.js",
     "test": "jest"
   },
   "keywords": [],
@@ -27,6 +27,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "env-cmd": "^8.0.2",
     "eslint": "^8.13.0",
     "jest": "^28.1.2"
   }
