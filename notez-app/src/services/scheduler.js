@@ -3,6 +3,7 @@ const User = require('../models/user');
 const Task = require('../models/task');
 const {prepareEmailDailyNotification} = require('./notifications');
 const {sendEmail} = require('./mails');
+const {log} = require("./log");
 
 const scheduledEnabled = false;
 
@@ -27,11 +28,11 @@ function sendDailyNotifications() {
 
 if (scheduledEnabled) {
     cron.schedule('* * * * *', () => {
-        console.log('Scheduler iteration starts');
+        log('Scheduler iteration starts')
         sendDailyNotifications();
-        console.log('Scheduler iteration ends');
+        log('Scheduler iteration ends');
     });
 } else {
-    console.warn('Notification scheduler is disabled.')
+    log('Notification scheduler is disabled.');
 }
 
