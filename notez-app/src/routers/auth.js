@@ -11,7 +11,7 @@ authRouter.post('/auth/login', async (req, res) => {
         const token = await user.generateToken();
         res.send({ user, token });
     } catch (error) {
-        res.status(403).send();
+        res.status(403).send( { error: 'Unable to sign in' });
     }
 });
 
