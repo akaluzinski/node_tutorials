@@ -17,7 +17,11 @@ userRouter.post('/users', async ({body}, res) => {
 });
 
 userRouter.get('/users/me', auth, ({user}, res) => {
-    res.send(user);
+    try {
+        res.send(user);
+    } catch (error){
+        res.status(400).send({error: 'Unable to get profile.'});
+    }
 });
 
 userRouter.patch('/users/me', auth, async (req, res) => {

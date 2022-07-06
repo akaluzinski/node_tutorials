@@ -3,7 +3,8 @@ const {validUserA} = require("./users");
 
 async function setupDb() {
     await User.deleteMany()
-    await new User(validUserA).save()
+    const user = await new User(validUserA).save()
+    return user;
 }
 
 module.exports = {
